@@ -21,7 +21,7 @@
                         <i class="material-icons">face</i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Usuario...">
+                    <input type="text" class="form-control" name="nombre" id="nombre" onkeyup="validar()" placeholder="Usuario...">
                    </div>
                 </span>
                 <span class="bmd-form-group">
@@ -31,7 +31,7 @@
                         <i class="material-icons">calendar_today</i>
                       </span>
                     </div>
-                    <input type="number" class="form-control" name="edad" id="edad" placeholder="Edad...">
+                    <input type="number" class="form-control" name="edad" id="edad" onkeyup="validar()" placeholder="Edad...">
                   </div>
                 </span>
                 <span class="bmd-form-group">
@@ -41,12 +41,12 @@
                         <i class="material-icons">lock_outline</i>
                       </span>
                     </div>
-                  <input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña...">
+                  <input type="password" class="form-control" name="clave" id="clave" onkeyup="validar()" placeholder="Contraseña...">
                   </div>
                 </span>
               </div>
               <div class="footer text-center">
-                   <button id="botonEnviar" class="btn btn-primary" type="submit" onClick="return true;" >Crear cuenta</button>
+                   <button id="botonEnviar" class="btn btn-primary" type="submit" onClick="return true;" disabled>Crear cuenta</button>
                    <br>¿Ya tienes cuenta? <a href="/login">Inicia sesión.</a>
                    <div id="error" style="color:red;"><strong><%= message %><br><%= error %></strong></div>
               </div>
@@ -61,3 +61,22 @@
 
 <!-- Scripts -->
 <% include scripts %>
+<script>
+//var usuarios = <- JSON.stringify(usuarios) >; usuarios.includes(nombre) ||
+var nombre = document.getElementById('nombre');
+var clave = document.getElementById('clave');
+
+function validar() {
+  console.log("Entro a validar usuario");
+  if (nombre.value == "" || clave.value == "" ) {
+    document.getElementById('botonEnviar').disabled = true;
+    console.log("disabled");
+    return false;
+  } else {
+    document.getElementById('botonEnviar').disabled = false;
+    console.log("enabled");
+    return true;
+  }
+  return false;
+}
+</script>
