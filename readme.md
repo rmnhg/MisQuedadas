@@ -1,4 +1,3 @@
-
 # Instalación y pruebas del portal "misquedadas"
 
 ## Arranque y acceso al Servidor Personal Virtual
@@ -12,10 +11,10 @@
 En la consola de comandos del Servidor Personal ejecutar:
 
 ```sh
-$ cd ~
-$ git clone https://github.com/DiegoMartindeAndres/misquedadas.git
-$ cd ~/misquedadas
-$ npm install
+cd ~
+git clone https://gitlab.com/rmnhg/misquedadas.git
+cd ~/misquedadas
+npm install
 ```
 
 ## Modificar las claves de acceso a la BBDD y al mapa de Google Maps
@@ -30,8 +29,8 @@ Los valores concretos están publicados en el Moodle de la asignatura en el art�
 En la consola de comandos del servidor personal ejecutar:
 
 ```sh
-$ cd ~/misquedadas
-$ npm start
+cd ~/misquedadas
+npm start
 ```
 
 ## Parar el servicio
@@ -44,10 +43,10 @@ $ npm start
 Para rearrancar el servicio habrá que concatenar las acciones de parar el servicio y arrancar el servicio. Es decir:
 ```sh
 `Ctrl+C`
-$ npm start
+npm start
 ```
 
 
 ## License
 
-Diego Martín de Andrés 2018
+Diego Martín de Andrés 2019
