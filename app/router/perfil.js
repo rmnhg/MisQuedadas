@@ -80,10 +80,16 @@ module.exports = function (app,passport) {
     form.parse(req, function (err, fields, files) {
       var oldpath = files.filetoupload.path;
       var newpath = './app/public/img/users/' + usuario + '.jpg';
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
+      var stats = fs.statSync(oldpath);
+      var fileSizeInBytes = stats.size;
+      if (fileSizeInBytes != 0) {
+        fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+          res.redirect(301, '/perfil');
+        });
+      } else {
         res.redirect(301, '/perfil');
-      });
+      }
     });
   });
 
