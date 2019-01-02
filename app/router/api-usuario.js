@@ -19,6 +19,7 @@ const express = require('express');
 const executor      = require('app/executor');
 const showUsuarios = require('app/service/get-usuarios');
 const showUsuario = require('app/service/get-usuario');
+const addUsuario = require('app/service/add-usuario');
 const showImagenUsuario = require('app/service/get-imagenUsuario');
 
 //
@@ -64,7 +65,6 @@ router.get('/', function (req, res) {
   });
 });
 
-
 /**
  * @api {get} /usuario/<nombre> Obtiene un usuario por el <nombre>
  * @apiName GetUsuario
@@ -83,11 +83,10 @@ router.get('/', function (req, res) {
  *     {
  *       "status": "okay",
  *       "usuario": [
-            "nombre": "ana",
-            "clave": "ana0000",
-            "edad": "16",
-            "imagen": "ana.jpg"
-
+ *          "nombre": "ana",
+ *          "clave": "ana0000",
+ *          "edad": "16",
+ *          "imagen": "ana.jpg"
  *       ]
  *     }
  */
@@ -118,8 +117,11 @@ router.get('/:NOMBRE', function (req, res) {
  *     HTTP/1.1 200 OK
  *     {
  *       "status": "okay",
- *       "imagen": [
-            "imagen": "usuario.jpg"
+ *       "usuario": [
+ *          "nombre": "ana",
+ *          "clave": "ana0000",
+ *          "edad": "16",
+ *          "imagen": "ana.jpg
  *       ]
  *     }
  */
@@ -131,7 +133,41 @@ router.get('/:NOMBRE/imagen', function (req, res) {
   });
 });
 
-
+/**
+ * @api {put} /usuario/ Añade un usuario haciendo un PUT
+ * @apiName AddUsuario
+ * @apiGroup Usuarios
+ * @apiDescription Añade un sitio
+ * @apiVersion 0.0.1
+ * @apiExample {curl} Example usage:
+ *     put http://localhost:18080/api/usuario/
+ *
+ * @apiSuccess {String} status `okay` si todo va bien
+ *                            `error` si hay un error
+ *
+ * @apiSuccessExample {json} Success response
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "okay"
+ *     }
+ * Se debe recibir en el body un sitio con el siguiente formato:
+ * {
+ *          "nombre": "ana",
+ *          "clave": "ana0000",
+ *          "edad": "16",
+ *          "imagen": "ana.jpg
+ * }
+ */
+router.put('/', function (req, res) {
+  executor.execute(req, res, function (sender) {
+    var params = {};
+    params.nombre = req.body.nombre;
+    params.clave = req.body.clave;
+    params.edad = req.body.edad;
+    params.imagen = req.body.nombre+".jpg";
+      sender(addUsuario.execute(params),'AddUsuario');
+  });
+});
 
 
 //

@@ -1,4 +1,7 @@
-<% include head %>
+<head>
+  <title>Mis quedadas - RHG | Iniciar sesión</title>
+  <% include head %>
+</head>
 
 <!-- show any messages that come back with authentication -->
 <% if (message.length > 0) { %>
@@ -7,36 +10,62 @@
 
   <%- error %>
 
-  <body id="LoginForm">
+<body>
+  <div class="page-header header-filter" style="background-image: url('/img/bg7.jpg'); background-size: cover; background-position: top center;">
     <div class="container">
-      <div class="login-form">
-        <div class="main-div">
-          <div class="panel">
-            <h2>Accede a MIS QUEDADAS v2</h2>
-            <p>Introduce tu usuario y tu clave</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+          <div class="card card-login login-form">
+            <div class="card-header card-header-primary text-center">
+              <h4 class="card-title">Mis Quedadas - Iniciar sesión</h4>
+            </div>
+            <!-- show any messages that come back with authentication -->
+            <center>
+              <% if (message.length > 0) { %>
+                <%= message %>
+              <% } %>
+              <%- error %>
+            </center>
+            <form id="Login" action="/login" method="post" enctype='application/json'>
+              <div class="card-body">
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" name="nombre" placeholder="Usuario...">
+                   </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                  <input type="password" class="form-control" name="clave" placeholder="Contraseña...">
+                  </div>
+                </span>
+              </div>
+              <div class="footer text-center">
+		               <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                   <br>¿No tienes cuenta? <a href="/signup">Créala ahora.</a>
+                   <div id="error" style="color:red;"><strong><%= message %><br><%= error %></strong></div>
+              </div>
+            </form>
           </div>
-          <form id="Login" action="/login" method="post" enctype='application/json'>
-
-            <div class="form-group">
-              <input type="text" class="form-control" name="nombre" placeholder="Usuario">
-            </div>
-
-
-            <div class="form-group">
-              <input type="password" class="form-control" name="clave" placeholder="Contraseña">
-            </div>
-
-
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+ <% include footer %>
+</body>
 
-  <script src="/js/json-formdata.js"></script>
-
-  <script>
+<!-- Scripts -->
+<script src="/js/json-formdata.js"></script>
+<script>
   /* Common use case, similar to usual FormData object */
   var form = document.querySelector('form');
   form.addEventListener('submit', function (e) {

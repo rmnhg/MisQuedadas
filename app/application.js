@@ -44,12 +44,13 @@ const routerAPIUsuario  = require('app/router/api-usuario');
 const routerAPIAsiste   = require('app/router/api-asiste');
 const routerAPISitio    = require('app/router/api-sitio');
 
-//quitar
-const routerAPIPruebaUsuario = require('app/router/usuario');
 
 const routerQuedada     = './router/quedada.js';
 const routerSitio     = './router/sitio.js';
+const routerPerfil    = './router/perfil.js';
+const routerUsuario     = './router/usuario.js';
 const routerLogin     = './router/login.js';
+const routerSignup     = './router/signup.js';
 
 const path = require('path');
 
@@ -121,14 +122,12 @@ module.exports.start = function (settings) {
   app.use('/api/asiste', routerAPIAsiste);
   app.use('/api/sitio', routerAPISitio);
 
-  //------
-  //prueba
-  //------
-  app.use('/usuario', routerAPIPruebaUsuario);
-
   //Estas rutas tienes que estar logeado
   require(routerLogin)(app,passport);
+  require(routerSignup)(app,passport);
   require(routerQuedada)(app,passport);
+  require(routerPerfil)(app,passport);
+  require(routerUsuario)(app,passport);
   require(routerSitio)(app,passport);
 
   // Endpoints...

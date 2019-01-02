@@ -1,5 +1,52 @@
-<h1>Usuario</h1>
-<h2><%= usuario.nombre %></h2>
-<h2><%= usuario.clave %></h2>
-<h2><%= usuario.edad %></h2>
-<h2><%= usuario.imagen %></h2>
+<head>
+  <title>Mis quedadas - RHG | Perfil de <%= otheruser %></title>
+  <% include head %>
+</head>
+<body class="profile-page sidebar-collapse">
+  <% include navbar %>
+
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/bg7.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <div class="brand text-center">
+            <h1>Perfil de <%= otheruser %></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main main-raised">
+    <div class="container">
+      <div class="section text-center">
+        <h2 class="title">Información:</h2>
+        <h3>Foto:</h3>
+        <img  src="/img/users/<%= otheruser %>.jpg" onerror="this.src = '/img/users/usuario.jpg'; console.log('Ha habido un fallo al cargar la foto de <%= otheruser %>')" alt="Imagen de <%= otheruser %>" title="Imagen de <%= otheruser %>" class="img-raised rounded img-fluid img-profile">
+        <h3>Nombre de usuario:</h3>
+        <code><%= otheruser %></code>
+        <div id="Edad"></div>
+        <h3>Imagen:</h3>
+        <code><%= imagen %></code>
+        <h3>Quedadas a las que asiste:</h3>
+        <code>
+          <% for(var i=0; i<quedadas.length; i++) { %>
+            <a href='/quedada/<%= quedadas[i] %>'>
+              <%= quedadas[i] %>
+            </a>
+            <br>
+          <% } %>
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <% include footer %>
+
+  <!-- Scripts -->
+  <!-- Ver edad solo si está definida -->
+  <script>
+    if("<%= edad %>" != "")
+    document.getElementById("Edad").innerHTML="<h3>Edad:</h3><code><%= edad %></code>";
+  </script>
+  <% include scripts %>
+</body>

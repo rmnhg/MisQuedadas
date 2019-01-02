@@ -1,24 +1,22 @@
 /*
- * misquedadas2 - https://github.com/DiegoMartindeAndres/misquedadas.git
- *
- * Copyright (c) 2018
- */
+* misquedadas2 - https://github.com/DiegoMartindeAndres/misquedadas.git
+*
+* Copyright (c) 2018
+*/
 
 /**
- * @module mq2/router/api-usuario
- *
- * @requires express
- * @requires mq2/executor
- * @requires mq2/service/get-usuarios
- */
+* @module mq2/router/perfil
+*
+* @requires express
+* @requires mq2/executor
+* @requires mq2/service/get-quedadas
+*/
 
 'use strict';
 
 const express = require('express');
-
-const showUsuario = require('app/service/get-usuario');
-
-const _ = require('lodash');
+const showPerfil = require('app/service/get-usuario');
+const showQuedadasFromUser = require('app/service/get-quedadas-from-user');
 
 //
 // Router: /quedada
@@ -29,38 +27,49 @@ const router = express.Router({
   strict: true
 });
 
-//
-// Pruebas
-//
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+  //console.log("Está autenticado?: ",req.isAuthenticated());
 
-router.get('/', function (req, res) {
-  var params = {};
-  params.nombre = req.query.nombre;
 
-  // Buscar por el usuario o mandar el error
-  Promise.all([showUsuario.execute(params)])
-  .catch(
-    function(err) {
-      console.log(err); // some coding error in handling happened
-      res.render('error',{message:err.messagge, error:err});
-      //done(err,null);
-    })
-    .then(values => {
-      console.log(values[0][0]); // some coding error in handling happened
-      console.log(_.isEmpty(values[0][0]));
-      if (_.isEmpty(values[0][0])) {
-        res.render('error',{message:"no existe el usuario", error:"no existe usuario."});
-        //done("No existe usuario.",null);
-      } else {
-        res.render('usuario',{usuario:values[0][0]});
-        //done(null,values[0]);
-      }
-    });
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+  return next();
 
-});
-
+  // if they aren't redirect them to the home page
+  res.redirect('/login');
+}
 
 //
 // Exports the router
 //
-module.exports = router;
+
+module.exports = function (app,passport) {
+
+
+  //
+  // Endpoints...
+  //
+
+  router.get('/:NOMBRE', isLoggedIn, function (req, res) {
+    var usuario = req.session.passport.user;
+    var otheruser = req.params.NOMBRE;
+    var params = {};
+    params.nombre = req.params.NOMBRE;
+    Promise.all([showPerfil.execute(params),showQuedadasFromUser.execute(params)])
+    .catch(
+      function(err) {
+        //console.log(err.message); // some coding error in handling happened
+        res.render('error',{message:err.message, error:err});
+      })
+    .then(values => {
+      var edad = values[0][0].edad;
+      var imagen = values[0][0].imagen;
+      var quedadas = values[1];
+      res.render('usuario',{edad:edad, otheruser:otheruser, user:usuario, imagen:imagen, quedadas:quedadas, message:"", error:""});
+  })
+    });
+
+  app.use('/usuario', router);
+
+};

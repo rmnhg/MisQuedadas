@@ -1,0 +1,63 @@
+<head>
+  <title>Mis quedadas - RHG | Crear cuenta</title>
+  <% include head %>
+</head>
+
+<body>
+  <div class="page-header header-filter" style="background-image: url('/img/bg7.jpg'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+          <div class="card card-login">
+            <div class="card-header card-header-primary text-center">
+              <h4 class="card-title">Mis Quedadas - Crear cuenta</h4>
+            </div>
+            <form name="nuevoUsuarioForm" method="post" action="/signup/">
+              <div class="card-body">
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Usuario...">
+                   </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">calendar_today</i>
+                      </span>
+                    </div>
+                    <input type="number" class="form-control" name="edad" id="edad" placeholder="Edad...">
+                  </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                  <input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña...">
+                  </div>
+                </span>
+              </div>
+              <div class="footer text-center">
+                   <button id="botonEnviar" class="btn btn-primary" type="submit" onClick="return true;" >Crear cuenta</button>
+                   <br>¿Ya tienes cuenta? <a href="/login">Inicia sesión.</a>
+                   <div id="error" style="color:red;"><strong><%= message %><br><%= error %></strong></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <% include footer %>
+</body>
+
+<!-- Scripts -->
+<% include scripts %>

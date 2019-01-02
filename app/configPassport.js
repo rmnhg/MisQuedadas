@@ -10,7 +10,7 @@ const _ = require('lodash');
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
-    // =========================================================================
+  // =========================================================================
   // passport session setup ==================================================
   // =========================================================================
   // required for persistent login sessions

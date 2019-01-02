@@ -1,99 +1,129 @@
-<% include head %>
-<div class="container mt-3">
-  <% include user %>
-<h1 class="d-flex justify-content-center">Nuevo sitio</h1><br>
+<head>
+  <title>Mis quedadas - RHG | Nuevo sitio</title>
+  <% include head %>
+</head>
 
-<form name="nuevoSitioForm" method="post" onsubmit="return validateForm()" action="/sitio/">
+<% include navbar %>
 
-    <input type="hidden" name="lat" id="lat" value="40.452658">
-    <input type="hidden" name="lng" id="lng" value="-3.726201">
-    <div class="form-group row">
-
-
-      <label class="col-sm-2 col-form-label text-danger" id="texto" for="direccion">Nombre sitio: </label>
-        <div class="col-sm-9">
-          <input type="text" name ="direccion" class="form-control is-invalid" id="direccion" placeholder="Introduce el nombre del nuevo sitio...">
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/city-profile.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <div class="brand text-center">
+          <h1>Quedadas</h1>
+          <h3 class="title text-center">Nuevo sitio</h3>
         </div>
-      <span id="icono" class="col-sm-1 fas fa-times fa-2x text-danger"></span>
       </div>
-
-  <div id="map"></div>
-  <br>
-  <button id="botonEnviar" class="btn btn-danger btn-lg" type="submit" disabled="disabled" onClick="return confirm('¿Añadir nuevo sitio?');">Crear sitio</button>
-  <br>
-  <br>
-  <div>
-    <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#instrucciones">Pulsa para obtener instrucciones.</button>
-    <div id="instrucciones" class="collapse in">
-      <ul class="list-unstyled">
-        <li>Pon nombre al sitio.</li>
-          <ul>
-            <li>No podrás ponerle el nombre de un sitio existente, ni llamarlo "nuevo"</li>
-          </ul>
-        <li>Busca en el mapa la localización del sitio.</li>
-          <ul>
-            <li>Usa el cuadro azul para buscar en el mapa.</li>
-            <li>También puedes desplazar el icono <i class="fas fa-map-marker-alt text-danger"></i> donde quieras establecer tu sitio.</li>
-          </ul>
-        <li>Para finalizar debes pulsar el botón de <i>Crear sitio</i></li>
-      </ul>
     </div>
-  </div>
-</form>
-
-<div class="pac-card" id="pac-card">
-
-    <div id="title">
-      Búsqueda
-    </div>
-
-    <div id="pac-container">
-      <input id="pac-input" type="text"
-      placeholder="Búsca por una localización">
-    </div>
-  </div>
-
-  <div id="infowindow-content">
-    <img src="" width="16" height="16" id="place-icon">
-    <span id="place-name"  class="title"></span><br>
-    <span id="place-address"></span>
   </div>
 </div>
+
+<div class="main main-raised">
+  <div class="container">
+    <div class="section">
+      <form name="nuevoSitioForm" method="post" onSubmit="return validar();" action="/sitio/">
+        <div id="bloque" class="form-group label-floating has-danger">
+          <label class="control-label">Nombre del sitio:</label>
+          <input type="text" name ="direccion" id="direccion" placeholder="Introduce el nombre del nuevo sitio..." onkeyup="validar();" class="form-control" />
+          <span id="icono"><span class="material-icons form-control-feedback">clear</span></span>
+        </div>
+        <div id="map"></div>
+        <br>
+        <i class="fas fa-map-marker-alt text-danger"></i> <strong>Latitud:</strong>
+        <input type="text" name="lat" id="lat" value="40.452658" class="form-control"><br>
+        <i class="fas fa-globe text-info"></i> <strong>Longitud:</strong>
+        <input type="text" name="lng" id="lng" value="-3.726201" class="form-control"><br>
+        <div class="d-flex justify-content-center">
+          <!-- Button trigger modal -->
+          <button type="button" id="botonEnviar" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#ConfirmarSitio" onClick="nombreSitio();" disabled>Crear sitio</button>
+        </div>
+        <br>
+        <br>
+        <div>
+          <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#instrucciones">Pulsa para obtener instrucciones.</button>
+          <div id="instrucciones" class="collapse in">
+            <ul class="list-unstyled">
+              <li>Pon nombre al sitio.</li>
+                <ul>
+                  <li>No podrás ponerle el nombre de un sitio existente, ni llamarlo "nuevo".</li>
+                </ul>
+              <li>Busca en el mapa la localización del sitio.</li>
+                <ul>
+                  <li>Usa el cuadro azul para buscar en el mapa.</li>
+                  <li>También puedes desplazar el icono <i class="fas fa-map-marker-alt text-danger"></i> donde quieras establecer tu sitio.</li>
+                </ul>
+              <li>Para finalizar debes pulsar el botón de <i>Crear sitio</i>.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Busqueda de direcciones en el mapa -->
+        <div class="pac-card" id="pac-card">
+            <div id="title">
+              Búsqueda
+            </div>
+            <div id="pac-container">
+              <input id="pac-input" type="text" placeholder="Búscar por localización">
+            </div>
+        </div>
+        <div id="infowindow-content">
+          <img src="" width="16" height="16" id="place-icon">
+          <span id="place-name"  class="title"></span><br>
+          <span id="place-address"></span>
+        </div>
+        <!-- Modal - Cartel de confirmación de crear sitio -->
+        <div class="modal" id="ConfirmarSitio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="false" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ¿Quieres crear el sitio <span id="SitioElegido"></span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onClick="return true;">Aceptar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <% include footer %>
+
+<!-- Scripts -->
+<% include scripts %>
+
+<!-- Para validar el nombre del nuevo sitio -->
 <script>
-var sitios = <%- JSON.stringify(sitios) %>;
-var texto = document.getElementById('direccion');
+  var sitios = <%- JSON.stringify(sitios) %>;
+  var texto = document.getElementById('direccion');
 
-
-function validateForm() {
-  //console.log("entro a validar nuevo sitios");
-  var x = document.forms["nuevoSitioForm"]["direccion"].value;
-  if (sitios.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
-    document.getElementById("texto").classList.remove('text-success');
-    document.getElementById("icono").classList.remove('text-success');
-    document.getElementById("direccion").classList.remove('is-valid');
-    document.getElementById("icono").classList.remove('fa-check');
+  function validar() {
+    console.log("Entro a validar nuevo sitio");
+    var x = document.forms["nuevoSitioForm"]["direccion"].value;
+    if (sitios.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
+    document.getElementById("icono").innerHTML='<span class="material-icons form-control-feedback">clear</span>';
+    document.getElementById("bloque").classList.remove('has-success');
     document.getElementById('botonEnviar').classList.remove('btn-success');
 
-    document.getElementById("texto").classList.add('text-danger');
-    document.getElementById("icono").classList.add('text-danger');
-    document.getElementById("direccion").classList.add('is-invalid');
-    document.getElementById("icono").classList.add('fa-times');
+    document.getElementById("bloque").classList.add('has-danger');
     document.getElementById('botonEnviar').classList.add('btn-danger');
 
     document.getElementById('botonEnviar').disabled = true;
     return false;
   } else {
-    document.getElementById("texto").classList.remove('text-danger');
-    document.getElementById("icono").classList.remove('text-danger');
-    document.getElementById("direccion").classList.remove('is-invalid');
-    document.getElementById("icono").classList.remove('fa-times');
+    document.getElementById("icono").innerHTML='<span class="form-control-feedback"><i class="material-icons">done</i></span>';
+    document.getElementById("bloque").classList.remove('has-danger');
     document.getElementById('botonEnviar').classList.remove('btn-danger');
 
-    document.getElementById("texto").classList.add('text-success');
-    document.getElementById("icono").classList.add('text-success');
-    document.getElementById("direccion").classList.add('is-valid');
-    document.getElementById("icono").classList.add('fa-check');
+    document.getElementById("bloque").classList.add('has-success');
     document.getElementById('botonEnviar').classList.add('btn-success');
 
     document.getElementById('botonEnviar').disabled = false;
@@ -101,11 +131,14 @@ function validateForm() {
   }
   return false;
 }
+</script>
 
-texto.addEventListener("keyup", function (event) {
-validateForm();
-}, false);
-
+<!-- Para obtener el nombre del sitio que se va a crear en la confirmación. -->
+<script>
+  function nombreSitio(){
+    var s = document.forms["nuevoSitioForm"]["direccion"].value;
+    document.getElementById("SitioElegido").innerHTML = s;
+  }
 </script>
 
 <script>
@@ -179,15 +212,17 @@ function initMap() {
       infowindow.open(map, marker);
       var lat = marker.getPosition().lat();
       var lng = marker.getPosition().lng();
-      $('#lat').val(lat);
-      $('#lng').val(lng);
+      document.getElementById("lat").value = lat;
+      document.getElementById("lng").value = lng;
+      console.log("Busqueda?");
     });
 
     google.maps.event.addListener(marker, 'dragend', function(){
       var lat = marker.getPosition().lat();
       var lng = marker.getPosition().lng();
-      $('#lat').val(lat);
-      $('#lng').val(lng);
+      document.getElementById("lat").value = lat;
+      document.getElementById("lng").value = lng;
+      console.log("Movimiento marcador?");
     });
     google.maps.event.addListener(marker, 'dragstart', function(){
       infowindow.close();

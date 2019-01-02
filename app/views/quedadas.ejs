@@ -1,90 +1,150 @@
-<% include head %>
+<head>
+  <title>Mis quedadas - RHG</title>
+  <% include head %>
+</head>
 
-<div class="container mt-3">
-  <% include user %>
+<% include navbar %>
 
-
-  <div class="row">
-
-    <div class="col-sm-2">
-
-      <div class="d-flex justify-content-between">
-        <div>
-          <div class = "card align-items-stretch">
-            <h3>Quedadas:</h3>
-            <ul class="list-unstyled">
-              <% for(var i=0; i<quedadas.length; i++) { %>
-                <li>
-                  <a href='/quedada/<%= quedadas[i] %>'>
-                    <%if (quedadas[i] == quedada.que ) { %>
-                      <strong><%= quedadas[i] %></strong>
-                      <% } else{ %>
-                        <%= quedadas[i] %>
-                      <% } %>
-                  </a>
-                </li>
-              <% } %>
-            </ul>
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/bg3.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <div class="brand text-center">
+            <h1>Quedadas</h1>
+            <h3 class="title text-center">Aquí puedes gestionar las quedadas existentes</h3>
           </div>
         </div>
       </div>
-  </div>
-    <div class="col-sm-8">
-      <div id="map"></div>
     </div>
-    <div class="col-sm-2">
-      <div class="d-flex flex-column justify-content-between">
-        <div class = "card align-items-stretch">
-          <h3>Asistentes:</h3>
-          <div class="d-flex flex-column">
-          <% for(var i=0; i<asistentes.length; i++) { %>
-            <div class="card--content">
-              <a>
-                <img  src="/img/<%= asistentes[i] %>.jpg" alt="<%= asistentes[i] %>" title="<%= asistentes[i] %>"><br>
-              </a>
+  </div>
+  <div class="main main-raised">
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col">
+            <div class="d-flex justify-content-between">
+              <div class = "card align-items-stretch">
+                <h3 style="margin-left:10;margin-right:10;"><b>Quedadas:</b></h3>
+                <ul class="list-unstyled" style="margin-left:10;margin-right:10;">
+                  <% for(var i=0; i<quedadas.length; i++) { %>
+                    <li>
+                      <a href='/quedada/<%= quedadas[i] %>'>
+                        <%if (quedadas[i] == quedada.que ) { %>
+                          <strong><%= quedadas[i] %></strong>
+                          <% } else{ %>
+                            <%= quedadas[i] %>
+                          <% } %>
+                      </a>
+                    </li>
+                  <% } %>
+                </ul>
+              </div>
             </div>
-
+          </div>
+        <div class="col-sm-8" id="map"></div>
+        <div class="col">
+          <div class="d-flex flex-column justify-content-between">
+            <div class = "card align-items-stretch">
+              <h3 style="margin-left:10;"><b>Asistentes:</b></h3>
+              <div class="d-flex flex-column">
+                <ul class="list-unstyled" style="margin-left:10;margin-right:10;">
+                  <% for(var i=0; i<asistentes.length; i++) { %>
+                    <li>
+                      <p data-toggle="tooltip" data-html="true" title="<img src='/img/users/<%= asistentes[i] %>.jpg' title='Imagen de <%= asistentes[i] %>' class='img-raised rounded img-fluid img-profile'>"><strong><a href="/usuario/<%= asistentes[i] %>"><%= asistentes[i] %></strong></p>
+                    </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <a id="botonNuevaQuedada" href="/quedada/nuevo" class="btn btn-success btn-sm btn-block">Nueva Quedada</a>
+          <br>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#ConfirmarBorradoQuedada">Borrar Quedada</button>
+        </div>
+        <div class="col-sm-5">
+          <p>
+            <i class="fas fa-globe"></i> <strong>Asunto: </strong><%= quedada.que %><br>
+            <i class="far fa-calendar-alt"></i> <strong>Día: </strong><%= quedada.dia %><br>
+            <i class="far fa-clock"></i> <strong>Hora: </strong><%= quedada.hora %><br>
+            <i class="fas fa-map-pin"></i> <strong>Dirección: </strong><%= quedada.direccion %><br>
+            <i class="fas fa-map-marker-alt"></i> <strong>Latitud: </strong><%= lat %><br>
+            <i class="fas fa-map-marker-alt"></i><strong> Longitud: </strong><%= lng %><br>
+          </p>
+        </div>
+        <div class="col">
+          <%if (asiste == false ) { %>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#ConfirmarAsistencia">Asistir</button>
+          <% } else{ %>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#ConfirmarAsistencia">No asistir</button>
           <% } %>
         </div>
-        </div>
-     </div>
+      </div>
     </div>
   </div>
-<div class="row">
-      <div class="col-sm-2">
-
-        <a id="botonNuevaQuedada" href="/quedada/nuevo" class="btn btn-success btn-sm btn-block">Nueva Quedada</a>
-        <br>
-        <form method="post" action="/quedada/<%= quedada.que %>?_method=delete">
-          <button class="btn btn-danger btn-sm btn-block" type="submit"  onClick="return confirm('Se va a borrar: <%= quedada.que %>');">Borrar</button>
-        </form>
-
-
-      </div>
-      <div class="col-sm-8">
-        <p>
-          <i class="fas fa-globe"></i> <strong>Asunto: </strong><%= quedada.que %><br>
-          <i class="far fa-calendar-alt"></i> <strong>Día: </strong><%= quedada.dia %><br>
-          <i class="far fa-clock"></i> <strong>Hora: </strong><%= quedada.hora %><br>
-          <i class="fas fa-map-pin"></i> <strong>Dirección: </strong><%= quedada.direccion %><br>
-          <i class="fas fa-map-marker-alt"></i> <strong>Latitud: </strong><%= lat %><strong> Longitud: </strong><%= lng %><br>
-        </p>
-      </div>
-      <div class="col-sm-2">
-          <%if (asiste == false ) { %>
-            <form method="post" action="/api/asiste/?que=<%= quedada.que %>&nombre=<%= user %>">
-              <button class="btn btn-success btn-lg btn-block" type="submit"  onClick="return confirm('¿Confirmas asistir a la quedada <%= quedada.que %>?');" >Asistir</button>
-            </form>
-          <% } else{ %>
-            <form method="post" action="/api/asiste/?que=<%= quedada.que %>&nombre=<%= user %>">
-              <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="return confirm('¿Confirmas dejar de asistir a la quedada <%= quedada.que %>?');">No asistir</button>
-            </form>
-          <% } %>
-      </div>
 </div>
+
+<!-- Modal - Cartel de confirmación de borrar quedada -->
+<div class="modal fade" id="ConfirmarBorradoQuedada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres borrar la quedada <%= quedada.que %>?
+      </div>
+      <form method="post" action="/quedada/<%= quedada.que %>?_method=delete">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" onClick="return true;">Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+
+<!-- Modal - Cartel de confirmación de asistencia -->
+<div class="modal fade" id="ConfirmarAsistencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%if (asiste == false ) { %>
+          ¿Confirmas asistir a la quedada <%= quedada.que %>?
+        <% } else{ %>
+          ¿Confirmas dejar de asistir a la quedada <%= quedada.que %>?
+        <% } %>
+      </div>
+      <form method="post" action="/api/asiste/?que=<%= quedada.que %>&nombre=<%= user %>">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" onClick="return true;">Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <% include footer %>
 
+<!-- Scripts -->
+<% include scripts %>
 <script>
 function initMap() {
   var location = {lat: <%= lat %>, lng: <%= lng %>};

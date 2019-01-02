@@ -1,93 +1,145 @@
-<% include head %>
-<div class="container mt-3">
-  <% include user %>
-<h1 class="d-flex justify-content-center">Nueva quedada</h1><br>
+<head>
+  <title>Mis quedadas - RHG | Nueva quedada</title>
+  <% include head %>
+</head>
 
-<!-- <ul>
-  <% for(var i=0; i<sitios.length; i++) { %>
-    <li>
-        <%= sitios[i] %>
-        <form method="post" action="/sitio/<%= sitios[i] %>?_method=delete">
-          <button type="submit"  onClick="return confirm('Se va a borrar el sitio: <%= sitios[i] %>');">Borrar</button>
-        </form>
-    </li>
-    <% } %>
-  </ul> -->
+<% include navbar %>
 
-
-
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label text-danger" id="texto" for="que">Nombre quedada: </label>
-      <div class="col-sm-9">
-        <input type="text" name ="que" class="form-control is-invalid" id="que" placeholder="Introduce el nombre de la nueva quedada..." onkeyup="validateForm()">
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/profile_city.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <div class="brand text-center">
+          <h1>Quedadas</h1>
+          <h3 class="title text-center">Nueva quedada</h3>
+        </div>
       </div>
-    <span id="icono" class="col-sm-1 fas fa-times fa-2x text-danger"></span>
-    </div>
-  <h4>Selecciona un sitio</h4>
-  <select name ="direccion"  id="direccion" onchange="validateForm();" class="custom-select" size="10">
-    <%if (sitios.length > 0) { %>
-      <option value="<%= sitios[0] %>" selected><%= sitios[0] %></option>
-      <% for(var i=1; i<sitios.length; i++) { %>
-            <option value="<%= sitios[i] %>"><%= sitios[i] %></option>
-      <% } %>
-    <% } %>
-  </select>
-
-  <!-- <form action="/sitio/nuevo">
-      <input type="submit" value="Nuevo sitio" />
-  </form> -->
-
-  <!-- <div class="nuevoQuedadaForm">
-    <div class='input-group date' id='datetimepicker1' >
-      <input type='text' name ="fechahora" id='fechahora' class="form-control" onchange="validateForm();" />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span>
-      </span>
-    </div>
-  </div> -->
-
-  <div class="d-flex justify-content-center">
-    <a id="botonNuevoSitio" href="/sitio/nuevo" class="btn btn-primary btn-sm btn-success ">Crear nuevo sitio</a> <br>
-    <button id="botonEliminarSitio" type="submit" class="btn btn-primary btn-danger btn-sm " onclick="borrarSitio()">Borrar sitio</button>
-  </div>
-  <div style="overflow:hidden;">
-      <div class="form-group">
-          <div class="row d-flex justify-content-center">
-
-              <div class="col-md-8">
-                  <div data-target="#datetimepicker13" id="datetimepicker13"></div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <br>
-  <button id="botonEnviar" class="btn btn-danger btn-lg" type="submit" onClick="return confirm('¿Añadir nueva quedada?') && enviarDatos() ;" disabled >Crear quedada</button>
-  <br>
-  <br>
-  <div>
-    <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#instrucciones">Pulsa para obtener instrucciones.</button>
-    <div id="instrucciones" class="collapse in">
-      <ul class="list-unstyled">
-        <li>Pon nombre a la quedada.</li>
-          <ul>
-            <li>No podrás poner el nombre de una quedada existente, ni llamarlo "nuevo".</li>
-          </ul>
-        <li>Elije el sitio donde se celebrará la quedada.</li>
-          <ul>
-            <li>Si no existe, puedes crear un sitio.</li>
-            <li>Si quieres puedes borrar un sitio, pero no puedes borrar sitios que pertenezcan a otra quedada.</li>
-          </ul>
-        <li>Elije la fecha y la hora de la quedada.</li>
-        <li>Para finalizar debes pulsar el botón de <i>Crear quedada</i></li>
-      </ul>
     </div>
   </div>
 </div>
+
+<div class="main main-raised">
+  <div class="container">
+    <div class="section">
+      <div id="bloque" class="form-group label-floating has-danger">
+        <label class="control-label">Nombre de la quedada:</label>
+        <input type="text" name ="que" id="que" placeholder="Introduce el nombre de la nueva quedada..." onkeyup="validar()" class="form-control" />
+        <span id="icono"><span class="material-icons form-control-feedback">clear</span></span>
+      </div>
+      <br>
+      <h4>Selecciona un sitio</h4>
+      <select name ="direccion"  id="direccion" onChange="comprobarSitiosBorrables();" class="custom-select form-control">
+        <%if (sitios.length > 0) { %>
+          <option value="<%= sitios[0] %>" selected>
+            <%= sitios[0] %>
+          </option>
+          <% for(var i=1; i<sitios.length; i++) { %>
+            <option value="<%= sitios[i] %>">
+              <%= sitios[i] %>
+            </option>
+          <% } %>
+        <% } %>
+      </select>
+      <div class="d-flex justify-content-center">
+        <a id="botonNuevoSitio" href="/sitio/nuevo" class="btn btn-primary btn-sm btn-success">Crear nuevo sitio</a><br>
+        <!-- Button trigger modal -->
+        <button type="button" id="botonEliminarSitio" class="btn btn-primary btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmarBorradoSitio" onClick="nombreSitio();" disabled>Borrar sitio</button>
+      </div>
+      <br>
+      <!-- Input with datetimepicker -->
+      <div class="form-group">
+        <label class="label-control">Elige la fecha y hora:</label>
+        <input type="text" class="form-control datetimepicker"/>
+      </div>
+      <br>
+      <!-- Button trigger modal -->
+      <button type="button" id="botonEnviar" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#ConfirmarQuedada" onClick="nombreQuedada();" disabled>Crear quedada</button>
+      <br>
+      <br>
+      <div>
+        <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#instrucciones">Pulsa para obtener instrucciones.</button>
+        <div id="instrucciones" class="collapse in">
+            <ul class="list-unstyled">
+              <li>Pon nombre a la quedada.</li>
+              <ul>
+                <li>No podrás poner el nombre de una quedada existente, ni llamarlo "nuevo".</li>
+              </ul>
+              <li>Elije el sitio donde se celebrará la quedada.</li>
+              <ul>
+                <li>Si no existe, puedes crear un sitio.</li>
+                <li>Si quieres puedes borrar un sitio, pero no puedes borrar sitios que pertenezcan a otra quedada.</li>
+              </ul>
+              <li>Elije la fecha y la hora de la quedada.</li>
+              <li>Para finalizar debes pulsar el botón de <i>Crear quedada</i>.</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - Cartel de confirmación quedada -->
+<div class="modal fade" id="ConfirmarQuedada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Añadir la quedada <span id="NuevaQuedada"></span>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" type="submit" onClick="enviarDatos();">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - Cartel de confirmación de borrar sitio -->
+<div class="modal fade" id="ConfirmarBorradoSitio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres borrar el sitio <span id="SitioElegido"></span>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" type="submit" onClick="borrarSitio();">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <% include footer %>
+
+<!-- Para obtener el nombre de la nueva quedada en la confirmación. -->
+<script>
+  function nombreQuedada(){
+    var q = document.getElementById("que").value;
+    document.getElementById("NuevaQuedada").innerHTML = q;
+  }
+</script>
+
+<!-- Para obtener el nombre del sitio a borrar en la confirmación. -->
+<script>
+  function nombreSitio(){
+    var s = document.getElementById("direccion").value;
+    document.getElementById("SitioElegido").innerHTML = s;
+  }
+</script>
+
 <!-- Para borrar un sitio. -->
 <script type="text/javascript">
-
-
 var sitioBorrables = <%- JSON.stringify(sitiosBorrables) %>;
 
 function comprobarSitiosBorrables(){
@@ -109,7 +161,7 @@ $( "select" ).change(function() {
 
 
 function enviarDatos() {
-  var d = $('#datetimepicker13').datetimepicker('viewDate');
+  var d = $('.datetimepicker').datetimepicker('viewDate');
   var dia = d.format("YYYY-MM-DD");
   var hora = d.format("HH:mm");
   var e = document.getElementById("direccion");
@@ -157,20 +209,6 @@ function post(path, params, method) {
    document.body.appendChild(form);
    form.submit();
 }
-
-</script>
-
-
-
-<!-- Para configurar el seleccionador de fechas. -->
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker13').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            locale: 'es'
-        });
-    });
 </script>
 
 <!-- Para validar el formulario. -->
@@ -220,3 +258,37 @@ texto.addEventListener("keyup", function (event) {
   validateForm();
 }, false);
 </script>
+
+<script>
+var quedadas = <%- JSON.stringify(quedadas) %>;
+var direccion = document.getElementById('direccion');
+
+function validar() {
+  console.log("Entro a validar nueva quedada");
+  var x = document.getElementById("que").value;
+  if (quedadas.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
+    document.getElementById("icono").innerHTML='<span class="material-icons form-control-feedback">clear</span>';
+    document.getElementById("bloque").classList.remove('has-success');
+    document.getElementById('botonEnviar').classList.remove('btn-success');
+
+    document.getElementById("bloque").classList.add('has-danger');
+    document.getElementById('botonEnviar').classList.add('btn-danger');
+
+    document.getElementById('botonEnviar').disabled = true;
+    return false;
+  } else {
+    document.getElementById("icono").innerHTML='<span class="form-control-feedback"><i class="material-icons">done</i></span>';
+    document.getElementById("bloque").classList.remove('has-danger');
+    document.getElementById('botonEnviar').classList.remove('btn-danger');
+
+    document.getElementById("bloque").classList.add('has-success');
+    document.getElementById('botonEnviar').classList.add('btn-success');
+
+    document.getElementById('botonEnviar').disabled = false;
+    return true;
+  }
+  return false;
+}
+</script>
+
+<% include scripts %>
