@@ -216,55 +216,7 @@ function post(path, params, method) {
 var quedadas = <%- JSON.stringify(quedadas) %>;
 var direccion = document.getElementById('direccion');
 
-function validateForm() {
-  console.log("entro a validar nueva quedada");
-  var x = document.getElementById("que").value;
-  if (quedadas.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
-    document.getElementById("texto").classList.remove('text-success');
-    document.getElementById("icono").classList.remove('text-success');
-    document.getElementById("que").classList.remove('is-valid');
-    document.getElementById("icono").classList.remove('fa-check');
-    document.getElementById('botonEnviar').classList.remove('btn-success');
-
-
-    document.getElementById("texto").classList.add('text-danger');
-    document.getElementById("icono").classList.add('text-danger');
-    document.getElementById("que").classList.add('is-invalid');
-    document.getElementById("icono").classList.add('fa-times');
-    document.getElementById('botonEnviar').classList.add('btn-danger');
-
-    document.getElementById('botonEnviar').disabled = true;
-    return false;
-  } else {
-    document.getElementById("texto").classList.remove('text-danger');
-    document.getElementById("icono").classList.remove('text-danger');
-    document.getElementById("que").classList.remove('is-invalid');
-    document.getElementById("icono").classList.remove('fa-times');
-    document.getElementById('botonEnviar').classList.remove('btn-danger');
-
-    document.getElementById("texto").classList.add('text-success');
-    document.getElementById("icono").classList.add('text-success');
-    document.getElementById("que").classList.add('is-valid');
-    document.getElementById("icono").classList.add('fa-check');
-    document.getElementById('botonEnviar').classList.add('btn-success');
-
-    document.getElementById('botonEnviar').disabled = false;
-    return true;
-  }
-  return false;
-}
-
-texto.addEventListener("keyup", function (event) {
-  validateForm();
-}, false);
-</script>
-
-<script>
-var quedadas = <%- JSON.stringify(quedadas) %>;
-var direccion = document.getElementById('direccion');
-
 function validar() {
-  console.log("Entro a validar nueva quedada");
   var x = document.getElementById("que").value;
   if (quedadas.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
     document.getElementById("icono").innerHTML='<span class="material-icons form-control-feedback">clear</span>';

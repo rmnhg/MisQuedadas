@@ -67,14 +67,11 @@ var nombre = document.getElementById('nombre');
 var clave = document.getElementById('clave');
 
 function validar() {
-  console.log("Entro a validar usuario");
   if (nombre.value == "" || clave.value == "" ) {
     document.getElementById('botonEnviar').disabled = true;
-    console.log("disabled");
     return false;
   } else {
     document.getElementById('botonEnviar').disabled = false;
-    console.log("enabled");
     return true;
   }
   return false;

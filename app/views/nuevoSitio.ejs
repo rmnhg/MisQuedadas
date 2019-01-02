@@ -106,7 +106,6 @@
   var texto = document.getElementById('direccion');
 
   function validar() {
-    console.log("Entro a validar nuevo sitio");
     var x = document.forms["nuevoSitioForm"]["direccion"].value;
     if (sitios.includes(x) || x == "" || x.toLowerCase() == "nuevo" ) {
     document.getElementById("icono").innerHTML='<span class="material-icons form-control-feedback">clear</span>';
@@ -214,7 +213,6 @@ function initMap() {
       var lng = marker.getPosition().lng();
       document.getElementById("lat").value = lat;
       document.getElementById("lng").value = lng;
-      console.log("Busqueda?");
     });
 
     google.maps.event.addListener(marker, 'dragend', function(){
@@ -222,7 +220,6 @@ function initMap() {
       var lng = marker.getPosition().lng();
       document.getElementById("lat").value = lat;
       document.getElementById("lng").value = lng;
-      console.log("Movimiento marcador?");
     });
     google.maps.event.addListener(marker, 'dragstart', function(){
       infowindow.close();
