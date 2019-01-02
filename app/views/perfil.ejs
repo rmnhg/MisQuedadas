@@ -30,7 +30,7 @@
         <code><%= imagen %></code>
         <h3>Cambiar foto:</h3>
         <form action="/perfil/" method="post" enctype="multipart/form-data">
-          <input type="file" name="filetoupload">
+          <input type="file" name="filetoupload" accept="image/*" >
           <button type="submit" class="btn btn-fab btn-round btn-primary">
             <i class="material-icons">attach_file</i>
           </button>
