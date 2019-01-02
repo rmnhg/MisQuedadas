@@ -1,6 +1,6 @@
 {
   "name": "misquedadas-2",
-  "version": "2.1.0",
+  "version": "0.0.1",
   "description": "Practica final de FTEL",
   "title": "misquedadas2",
   "author": " <diego.martin.de.andres@upm.es>",
@@ -10,9 +10,6 @@
   },
   "readme": "TODO add a readme description",
   "license": "MIT",
-  "engine": {
-    "node": "10.14.2"
-  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -32,7 +29,7 @@
     "express": ">=4.16.4",
     "express-session": "~1.15.6",
     "formidable": "^1.2.1",
-    "fs": ">=0.0.2",
+    "fs": "0.0.1-security",
     "lodash": ">=4.17.11",
     "method-override": "^2.3.10",
     "minimist": "1.2.0",
