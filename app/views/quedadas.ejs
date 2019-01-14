@@ -64,8 +64,13 @@
         <div class="col">
           <a id="botonNuevaQuedada" href="/quedada/nuevo" class="btn btn-success btn-sm btn-block">Nueva Quedada</a>
           <br>
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#ConfirmarBorradoQuedada">Borrar Quedada</button>
+          <% if (asistentes.length == 0) { %>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#ConfirmarBorradoQuedada">Borrar Quedada</button>
+          <% } else { %>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#ConfirmarBorradoQuedada" title="No puedes borrar quedadas que ya tengan asistentes" disabled>Borrar Quedada</button>
+          <% } %>
         </div>
         <div class="col-sm-5">
           <p>
