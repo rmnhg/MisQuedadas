@@ -28,7 +28,7 @@
       </div>
       <br>
       <h4>Selecciona un sitio</h4>
-      <select name ="direccion"  id="direccion" onChange="comprobarSitiosBorrables();" class="custom-select form-control">
+      <select name ="direccion"  id="direccion" onChange="comprobarSitiosBorrables(); verSitio();" class="custom-select form-control">
         <%if (sitios.length > 0) { %>
           <option value="<%= sitios[0] %>" selected>
             <%= sitios[0] %>
@@ -40,7 +40,8 @@
           <% } %>
         <% } %>
       </select>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center">684x531
+		<a id="botonVerSitio" class="btn btn-primary btn-sm btn-info">Ver sitio</a>
         <a id="botonNuevoSitio" href="/sitio/nuevo" class="btn btn-primary btn-sm btn-success">Crear nuevo sitio</a><br>
         <!-- Button trigger modal -->
         <button type="button" id="botonEliminarSitio" class="btn btn-primary btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmarBorradoSitio" onClick="nombreSitio();" disabled>Borrar sitio</button>
@@ -151,6 +152,12 @@ function comprobarSitiosBorrables(){
     document.getElementById('botonEliminarSitio').disabled = true;
   }
 };
+
+function verSitio {
+  var sitioSeleccionado = document.getElementById("direccion").value;
+  document.getElementById("botonVerSitio").onClick = "window.open('"+"/sitio/"+sitioSeleccionado+"', '', 'width=970,height=860,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes'); return false;";
+  document.getElementById("botonVerSitio").href = '/sitio/'+sitioSeleccionado;
+}
 
 window.onload = comprobarSitiosBorrables;
 

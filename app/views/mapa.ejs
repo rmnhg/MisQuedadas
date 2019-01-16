@@ -1,0 +1,29 @@
+<head>
+  <title>Mis quedadas - RHG | Ubicación de <%= sitio.direccion %></title>
+  <% include head %>
+</head>
+
+<div class="col-sm-8" id="map"></div>
+
+<!-- Scripts -->
+<% include scripts %>
+<script>
+function initMap() {
+  var location = {lat: <%= lat %>, lng: <%= lng %>};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 19,
+    center: location,
+    gestureHandling: 'none',
+    streetViewControl: false,
+    zoomControl: true
+  });
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map,
+    title: '<%= direccion %>'
+  });
+};
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=<%- GoogleMapsAPIkey %>&callback=initMap">
+</script>

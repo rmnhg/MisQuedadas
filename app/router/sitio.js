@@ -20,6 +20,7 @@ const executor      = require('app/executor');
 const showSitios = require('app/service/get-sitios');
 const addSitio = require('app/service/add-sitio');
 const removeSitio = require('app/service/remove-sitio');
+const showCoordenada = require('app/service/get-coordenadasQuedada.js');
 
 const _ = require('lodash');
 var def = require('../../misquedadas-2.json');
@@ -163,6 +164,48 @@ module.exports = function (app,passport) {
 
             });
 
+      /**
+      * @api {get} /sitio Obtiene todos los sitios
+      * @apiName GetQuedadas
+      * @apiGroup Quedadas
+      * @apiDescription Devuelve una lista de sitios
+      * @apiVersion 0.0.1
+      * @apiExample {curl} Example usage:
+      *     curl -i http://localhost:18080/sitio
+      *
+      * @apiSuccess {String} status `okay` si todo bien
+      *                      status  `error' si error
+      * @apiSuccess {[]String} array de quedadas.
+      *
+      * @apiSuccessExample {json} Success response
+      *     HTTP/1.1 200 OK
+      *     {
+      *       "status": "okay",
+      *       "quedadas": [
+      *          "Pachá",
+      *          "Cibeles",
+      *          "Cádiz"
+      *       ]
+      *     }
+      */
+      router.get('/:DIRECCION', isLoggedIn, function (req, res) {
+		var direccion = req.params.DIRECCION;
+        var params = {};
+        params.direccion = req.params.DIRECCION;
+        // Ejecutamos todas las promesas de búsquedas en la BBDD...
+        Promise.all([showCoordenada.execute(params)])
+        .catch(
+          function(err) {
+            //console.log(err.message); // some coding error in handling happened
+            res.render('error',{message:err.messagge, error:err});
+          })
+          .then(values => {
+            var arrayCoordenada = _.split(values[0][0].coordenadas, ',');
+            var lat = _.trim(arrayCoordenada[0]);
+            var lng = _.trim(arrayCoordenada[1]);
+            res.render('mapa',{direccion:direccion, lat:lat, lng:lng, GoogleMapsAPIkey:def.GoogleMapsAPIkey});
+          });
+        });
 
           app.use('/sitio', router);
         };
