@@ -5,43 +5,46 @@
 
 <% include navbar %>
 
-  <div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/bg3.jpg')">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 ml-auto mr-auto">
-          <div class="brand text-center">
-            <h1>Quedadas</h1>
-            <h3 class="title text-center">Aquí puedes gestionar las quedadas existentes</h3>
-          </div>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/img/bg3.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <div class="brand text-center">
+          <h1>Quedadas</h1>
+          <h3 class="title text-center">Aquí puedes gestionar las quedadas existentes</h3>
         </div>
       </div>
     </div>
   </div>
-  <div class="main main-raised">
-    <div class="container">
-      <div class="section">
-        <div class="row">
-          <div class="col">
-            <div class="d-flex justify-content-between">
-              <div class = "card align-items-stretch">
-                <h3 style="margin-left:10;margin-right:10;"><b>Quedadas:</b></h3>
-                <ul class="list-unstyled" style="margin-left:10;margin-right:10;">
-                  <% for(var i=0; i<quedadas.length; i++) { %>
-                    <li>
-                      <a href='/quedada/<%= quedadas[i] %>'>
-                        <%if (quedadas[i] == quedada.que ) { %>
-                          <strong><%= quedadas[i] %></strong>
-                          <% } else{ %>
-                            <%= quedadas[i] %>
-                          <% } %>
-                      </a>
-                    </li>
-                  <% } %>
-                </ul>
-              </div>
+</div>
+<div class="main main-raised">
+  <div class="container">
+    <div class="section">
+      <div class="row">
+        <div class="col">
+          <div class="d-flex justify-content-between">
+            <div class = "card align-items-stretch">
+              <h3 style="margin-left:10;margin-right:10;"><b>Quedadas:</b></h3>
+              <ul class="list-unstyled" style="margin-left:10;margin-right:10;">
+                <% for(var i=0; i<quedadas.length; i++) { %>
+                  <li>
+                    <a href='/quedada/<%= quedadas[i] %>'>
+                      <%if (quedadas[i] == quedada.que ) { %>
+                        <strong><%= quedadas[i] %></strong>
+                        <% } else{ %>
+                          <%= quedadas[i] %>
+                        <% } %>
+                    </a>
+                  </li>
+                <% } %>
+              </ul>
             </div>
           </div>
-        <div class="col-sm-8" id="map"></div>
+        </div>
+        <div class="col-sm-8">
+          <div id="map"></div>
+          <a id="botonVerSitio" href="/sitio/<%= quedada.direccion %>" onClick="verSitio();" target="_blank" class="btn btn-info btn-sm btn-block">Ver sitio</a>
+        </div>
         <div class="col">
           <div class="d-flex flex-column justify-content-between">
             <div class = "card align-items-stretch">

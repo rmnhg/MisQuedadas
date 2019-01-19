@@ -20,7 +20,7 @@ const executor      = require('app/executor');
 const showSitios = require('app/service/get-sitios');
 const addSitio = require('app/service/add-sitio');
 const removeSitio = require('app/service/remove-sitio');
-const showCoordenada = require('app/service/get-coordenadasQuedada.js');
+const showCoordenada = require('app/service/get-coordenadasSitio.js');
 
 const _ = require('lodash');
 var def = require('../../misquedadas-2.json');

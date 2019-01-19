@@ -17,7 +17,6 @@
     </div>
   </div>
 </div>
-
 <div class="main main-raised">
   <div class="container">
     <div class="section">
@@ -40,8 +39,8 @@
           <% } %>
         <% } %>
       </select>
-      <div class="d-flex justify-content-center">684x531
-		<a id="botonVerSitio" class="btn btn-primary btn-sm btn-info">Ver sitio</a>
+      <div class="d-flex justify-content-center">
+        <a id="botonVerSitio" href="#" onClick="verSitio();" target="_blank" class="btn btn-primary btn-sm btn-info">Ver sitio</a>
         <a id="botonNuevoSitio" href="/sitio/nuevo" class="btn btn-primary btn-sm btn-success">Crear nuevo sitio</a><br>
         <!-- Button trigger modal -->
         <button type="button" id="botonEliminarSitio" class="btn btn-primary btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmarBorradoSitio" onClick="nombreSitio();" disabled>Borrar sitio</button>
@@ -153,9 +152,8 @@ function comprobarSitiosBorrables(){
   }
 };
 
-function verSitio {
+function verSitio () {
   var sitioSeleccionado = document.getElementById("direccion").value;
-  document.getElementById("botonVerSitio").onClick = "window.open('"+"/sitio/"+sitioSeleccionado+"', '', 'width=970,height=860,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes'); return false;";
   document.getElementById("botonVerSitio").href = '/sitio/'+sitioSeleccionado;
 }
 
