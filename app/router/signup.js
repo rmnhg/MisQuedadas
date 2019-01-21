@@ -73,21 +73,21 @@ module.exports = function (app,passport) {
       function(err) {
         //console.log(err); // some coding error in handling happened
         var mensaje = "Error en la base de datos";
-        res.render('error',{message:mensaje, error:mensaje});
+        res.render('signup',{message:mensaje, error:mensaje});
       })
       .then(values => {
         var usuarios = values[0];
         if (usuarios.includes(params.nombre)){
-          var mensaje = "Estás tratando de añadir un usuario que ya existe.";
+          var mensaje = "Error: estás tratando de añadir un usuario que ya existe.";
           //console.log(mensaje);
-          res.render('error',{message:mensaje, error:mensaje});
+          res.render('signup',{message:mensaje, error:""});
         } else {
           Promise.all([addUsuario.execute(params)])
           .catch(
             function(err) {
               //console.log(err); // some coding error in handling happened
-              var mensaje = "Error en la base de datos, probablemente tengas duplicada la entrada.";
-              res.render('error',{message:mensaje, error:JSON.stringify(err)});
+              var mensaje = "Error en la base de datos:";
+              res.render('signup',{message:mensaje, error:JSON.stringify(err)});
             })
           .then(values => {
             var resultado = values[0];
@@ -99,7 +99,7 @@ module.exports = function (app,passport) {
               });
               res.redirect(301,'/login');
             } else {
-              res.render('error',{message:"Ha habido un error.", error:resultado});
+              res.render('signup',{message:"Ha habido un error:", error:resultado});
             }
             });
           }
